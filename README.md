@@ -1,1 +1,1 @@
-# kayaker-detection
+# Kayaker Detection

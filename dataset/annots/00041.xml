@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>00041.jpg</filename>
+	<path>/home/daka/Documents/master/kayaker-detection/dataset/images/00041.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>400</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>kayaker</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>207</xmin>
+			<ymin>146</ymin>
+			<xmax>540</xmax>
+			<ymax>257</ymax>
+		</bndbox>
+	</object>
+</annotation>
