@@ -6,7 +6,7 @@ import cv2.cv2 as cv2
 from mrcnn import visualize
 from util import COCO_DATASET_CLASSES
 
-VIDEO_PATH = "files/kayaker_malmo.MP4"
+VIDEO_PATH = "files/kayaker_malmo-1920x1080.mp4"
 M_RCNN_COCO_MODEL_PATH = 'model/mask_rcnn_coco.h5'
 
 
@@ -67,12 +67,13 @@ def predict_kayaker_on_video(trained_model_path):
             total_frames += 1
             results = model.detect([frame], verbose=1)
             result = results[0]
-            visualize.display_instances(frame,
-                                        result['rois'],
-                                        result['masks'],
-                                        result['class_ids'],
-                                        ["bg", "kayaker"],
-                                        result['scores'])
+            visualize.display_instances(image=frame,
+                                        boxes=result['rois'],
+                                        masks=result['masks'],
+                                        class_ids=result['class_ids'],
+                                        class_names=["bg", "kayaker"],
+                                        scores=result['scores'],
+                                        show_mask=False, )
             print(result)
         else:
             total_frames += 1
@@ -89,7 +90,7 @@ if __name__ == '__main__':
     print("Started")
 
     train_model()
-    # predict_kayaker_on_video()
+    # predict_kayaker_on_video("kayaker_cfg20220713T2041/mask_rcnn_kayaker_cfg_0002.h5")
 
     # model = pretrained_kayaker_model("model/mask_rcnn_kayaker_cfg_0015.h5")
     # show_predictions(model)

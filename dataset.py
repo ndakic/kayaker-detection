@@ -18,10 +18,10 @@ class KayakerDataset(Dataset):
             # extract image id
             image_id = filename[:-4]
             # skip all images after 35 if we are building the train set
-            if is_train and int(image_id) >= 35:
+            if is_train and int(image_id) >= 34:
                 continue
             # skip all images before 35 if we are building the test/val set
-            if not is_train and int(image_id) < 35:
+            if not is_train and int(image_id) < 34:
                 continue
             img_path = images_dir + filename
             ann_path = annotations_dir + image_id + '.xml'
