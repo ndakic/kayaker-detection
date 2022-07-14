@@ -6,3 +6,4 @@ matplotlib==3.5.2
 ipython==7.34.0
 h5py==2.10.0
 opencv_contrib_python==4.1.2.30
+shapely==1.8.2

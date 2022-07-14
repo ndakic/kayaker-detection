@@ -2,9 +2,7 @@ from dataset import KayakerDataset
 from config import KayakerConfig, PredictionConfig
 from model import KayakerModel
 from util import plot_actual_vs_predicted
-import cv2.cv2 as cv2
-from mrcnn import visualize
-from util import COCO_DATASET_CLASSES
+from video import predict_kayaker_on_video
 
 VIDEO_PATH = "files/kayaker_malmo-1920x1080.mp4"
 M_RCNN_COCO_MODEL_PATH = 'model/mask_rcnn_coco.h5'
@@ -57,40 +55,12 @@ def pretrained_kayaker_model(trained_model_path):
     return kayaker_model.model
 
 
-def predict_kayaker_on_video(trained_model_path):
-    model = pretrained_kayaker_model(trained_model_path)
-    video = cv2.VideoCapture(VIDEO_PATH)
-    total_frames = 0
-    while True:
-        _, frame = video.read()
-        if frame is not None and total_frames % 10 == 0:
-            total_frames += 1
-            results = model.detect([frame], verbose=1)
-            result = results[0]
-            visualize.display_instances(image=frame,
-                                        boxes=result['rois'],
-                                        masks=result['masks'],
-                                        class_ids=result['class_ids'],
-                                        class_names=["bg", "kayaker"],
-                                        scores=result['scores'],
-                                        show_mask=True, )
-            print(result)
-        else:
-            total_frames += 1
-
-        if total_frames > 135:
-            break
-
-    print("Total frames: ", total_frames)
-    video.release()
-    cv2.destroyAllWindows()
-
-
 if __name__ == '__main__':
     print("Started")
 
-    train_model()
-    # predict_kayaker_on_video("kayaker_cfg20220714T1510/mask_rcnn_kayaker_cfg_0005.h5")
+    # train_model()
 
-    # model = pretrained_kayaker_model("kayaker_model_with_masks/mask_rcnn_kayaker_cfg_0005.h5")
-    # show_predictions(model)
+    model = pretrained_kayaker_model("model/mask_rcnn_kayaker_cfg_0006.h5")
+    show_predictions(model)
+
+    # predict_kayaker_on_video(model, VIDEO_PATH)

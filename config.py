@@ -22,3 +22,5 @@ class PredictionConfig(Config):
     NUM_CLASSES = 1 + 1
     DETECTION_MAX_INSTANCES = 1
     DETECTION_MIN_CONFIDENCE = 0.95
+    GPU_COUNT = 1
+    IMAGES_PER_GPU = 1
