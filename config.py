@@ -8,13 +8,13 @@ class KayakerConfig(Config):
     # number of classes (background + kayaker)
     NUM_CLASSES = 1 + 1
 
-    IMAGE_MIN_DIM = 384
-    IMAGE_MAX_DIM = 384
+    # IMAGE_MIN_DIM = 384
+    # IMAGE_MAX_DIM = 384
 
     # RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128)
     DETECTION_MAX_INSTANCES = 5
     DETECTION_MIN_CONFIDENCE = 0.90
-    STEPS_PER_EPOCH = 33
+    STEPS_PER_EPOCH = 35
 
     # DETECTION_NMS_THRESHOLD = 0.6
     # TRAIN_ROIS_PER_IMAGE = 32
@@ -30,5 +30,5 @@ class PredictionConfig(Config):
     # simplify GPU config
     GPU_COUNT = 1
     IMAGES_PER_GPU = 1
-    DETECTION_MAX_INSTANCES = 1
-    DETECTION_MIN_CONFIDENCE = 0.90
+    DETECTION_MAX_INSTANCES = 3
+    DETECTION_MIN_CONFIDENCE = 0.95

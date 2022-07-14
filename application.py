@@ -12,12 +12,12 @@ M_RCNN_COCO_MODEL_PATH = 'model/mask_rcnn_coco.h5'
 
 def train_model():
     train_set = KayakerDataset()
-    train_set.load_dataset('dataset', is_train=True)
+    train_set.load_dataset('dataset', "train")
     train_set.prepare()
     print('Train: %d' % len(train_set.image_ids))
 
     test_set = KayakerDataset()
-    test_set.load_dataset('dataset', is_train=False)
+    test_set.load_dataset('dataset', "test")
     test_set.prepare()
     print('Test: %d' % len(test_set.image_ids))
 
@@ -34,13 +34,13 @@ def show_predictions(model):
     config = PredictionConfig()
 
     train_set = KayakerDataset()
-    train_set.load_dataset('dataset', is_train=True)
+    train_set.load_dataset('dataset', "train")
     train_set.prepare()
     print('Train: %d' % len(train_set.image_ids))
 
     # test/val set
     test_set = KayakerDataset()
-    test_set.load_dataset('dataset', is_train=False)
+    test_set.load_dataset('dataset', "test")
     test_set.prepare()
     print('Test: %d' % len(test_set.image_ids))
 
@@ -73,7 +73,7 @@ def predict_kayaker_on_video(trained_model_path):
                                         class_ids=result['class_ids'],
                                         class_names=["bg", "kayaker"],
                                         scores=result['scores'],
-                                        show_mask=False, )
+                                        show_mask=True, )
             print(result)
         else:
             total_frames += 1
@@ -90,7 +90,7 @@ if __name__ == '__main__':
     print("Started")
 
     train_model()
-    # predict_kayaker_on_video("kayaker_cfg20220713T2041/mask_rcnn_kayaker_cfg_0002.h5")
+    # predict_kayaker_on_video("kayaker_cfg20220714T1510/mask_rcnn_kayaker_cfg_0005.h5")
 
-    # model = pretrained_kayaker_model("model/mask_rcnn_kayaker_cfg_0015.h5")
+    # model = pretrained_kayaker_model("kayaker_model_with_masks/mask_rcnn_kayaker_cfg_0005.h5")
     # show_predictions(model)

@@ -3,32 +3,53 @@ from xml.etree import ElementTree
 from numpy import zeros
 from numpy import asarray
 from mrcnn.utils import Dataset
+import os
+import json
+import skimage.draw
+import numpy as np
 
 
 class KayakerDataset(Dataset):
-    # load the dataset definitions
-    def load_dataset(self, dataset_dir, is_train=True):
-        # define one class
+    # deprecated TODO: remove later
+    def load_dataset_(self, dataset_dir, is_train=True):
         self.add_class("dataset", 1, "kayaker")
-        # define data locations
         images_dir = dataset_dir + '/images/'
         annotations_dir = dataset_dir + '/annots/'
-        # find all images
         for filename in listdir(images_dir):
-            # extract image id
             image_id = filename[:-4]
-            # skip all images after 35 if we are building the train set
             if is_train and int(image_id) >= 34:
                 continue
-            # skip all images before 35 if we are building the test/val set
             if not is_train and int(image_id) < 34:
                 continue
             img_path = images_dir + filename
             ann_path = annotations_dir + image_id + '.xml'
-            # add to dataset
             self.add_image('dataset', image_id=image_id, path=img_path, annotation=ann_path)
 
-    # extract bounding boxes from an annotation file
+    def load_dataset(self, dataset_dir, subset):
+        self.add_class("dataset", 1, "kayaker")
+        assert subset in ["train", "test"]
+        dataset_dir = os.path.join(dataset_dir, subset)
+        annotations_ = json.load(open(os.path.join(dataset_dir, "annotations.json")))
+        annotations = list(annotations_.values())  # don't need the dict keys
+        annotations = [a for a in annotations if a['regions']]
+        for a in annotations:
+            polygons = [r['shape_attributes'] for r in a['regions']]
+            objects = [s['region_attributes']['name'] for s in a['regions']]
+            name_dict = {"kayaker": 1}
+            num_ids = [name_dict[a] for a in objects]
+            image_path = os.path.join(dataset_dir, a['filename'])
+            image = skimage.io.imread(image_path)
+            height, width = image.shape[:2]
+            self.add_image(
+                "dataset",
+                image_id=a['filename'],
+                path=image_path,
+                width=width, height=height,
+                polygons=polygons,
+                num_ids=num_ids
+            )
+
+    # deprecated TODO: remove later
     def extract_boxes(self, filename):
         # load and parse the file
         tree = ElementTree.parse(filename)
@@ -48,8 +69,8 @@ class KayakerDataset(Dataset):
         height = int(root.find('.//size/height').text)
         return boxes, width, height
 
-    # load the masks for an image
-    def load_mask(self, image_id):
+    # deprecated TODO: remove later
+    def load_mask_(self, image_id):
         # get details of image
         info = self.image_info[image_id]
         # define box file location
@@ -68,7 +89,29 @@ class KayakerDataset(Dataset):
             class_ids.append(self.class_names.index('kayaker'))
         return masks, asarray(class_ids, dtype='int32')
 
-    # load an image reference
-    def image_reference(self, image_id):
+    def load_mask(self, image_id):
+        image_info = self.image_info[image_id]
+        if image_info["source"] != "dataset":
+            return super(self.__class__, self).load_mask(image_id)
+        info = self.image_info[image_id]
+        if info["source"] != "dataset":
+            return super(self.__class__, self).load_mask(image_id)
+        num_ids = info['num_ids']
+        mask = np.zeros([info["height"], info["width"], len(info["polygons"])], dtype=np.uint8)
+        for i, p in enumerate(info["polygons"]):
+            rr, cc = skimage.draw.polygon(p['all_points_y'], p['all_points_x'])
+            mask[rr, cc, i] = 1
+        num_ids = np.array(num_ids, dtype=np.int32)
+        return mask, num_ids
+
+    # deprecated TODO: remove later
+    def image_reference_(self, image_id):
         info = self.image_info[image_id]
         return info['path']
+
+    def image_reference(self, image_id):
+        info = self.image_info[image_id]
+        if info["source"] == "dataset":
+            return info["path"]
+        else:
+            super(self.__class__, self).image_reference(image_id)
