@@ -1,30 +1,12 @@
-from os import listdir
-from xml.etree import ElementTree
-from numpy import zeros
-from numpy import asarray
-from mrcnn.utils import Dataset
 import os
 import json
 import skimage.draw
 import numpy as np
 
+from mrcnn.utils import Dataset
+
 
 class KayakerDataset(Dataset):
-    # deprecated TODO: remove later
-    def load_dataset_(self, dataset_dir, is_train=True):
-        self.add_class("dataset", 1, "kayaker")
-        images_dir = dataset_dir + '/images/'
-        annotations_dir = dataset_dir + '/annots/'
-        for filename in listdir(images_dir):
-            image_id = filename[:-4]
-            if is_train and int(image_id) >= 34:
-                continue
-            if not is_train and int(image_id) < 34:
-                continue
-            img_path = images_dir + filename
-            ann_path = annotations_dir + image_id + '.xml'
-            self.add_image('dataset', image_id=image_id, path=img_path, annotation=ann_path)
-
     def load_dataset(self, dataset_dir, subset):
         self.add_class("dataset", 1, "kayaker")
         assert subset in ["train", "test"]
@@ -49,46 +31,6 @@ class KayakerDataset(Dataset):
                 num_ids=num_ids
             )
 
-    # deprecated TODO: remove later
-    def extract_boxes(self, filename):
-        # load and parse the file
-        tree = ElementTree.parse(filename)
-        # get the root of the document
-        root = tree.getroot()
-        # extract each bounding box
-        boxes = list()
-        for box in root.findall('.//bndbox'):
-            xmin = int(box.find('xmin').text)
-            ymin = int(box.find('ymin').text)
-            xmax = int(box.find('xmax').text)
-            ymax = int(box.find('ymax').text)
-            coors = [xmin, ymin, xmax, ymax]
-            boxes.append(coors)
-        # extract image dimensions
-        width = int(root.find('.//size/width').text)
-        height = int(root.find('.//size/height').text)
-        return boxes, width, height
-
-    # deprecated TODO: remove later
-    def load_mask_(self, image_id):
-        # get details of image
-        info = self.image_info[image_id]
-        # define box file location
-        path = info['annotation']
-        # load XML
-        boxes, w, h = self.extract_boxes(path)
-        # create one array for all masks, each on a different channel
-        masks = zeros([h, w, len(boxes)], dtype='uint8')
-        # create masks
-        class_ids = list()
-        for i in range(len(boxes)):
-            box = boxes[i]
-            row_s, row_e = box[1], box[3]
-            col_s, col_e = box[0], box[2]
-            masks[row_s:row_e, col_s:col_e, i] = 1
-            class_ids.append(self.class_names.index('kayaker'))
-        return masks, asarray(class_ids, dtype='int32')
-
     def load_mask(self, image_id):
         image_info = self.image_info[image_id]
         if image_info["source"] != "dataset":
@@ -103,11 +45,6 @@ class KayakerDataset(Dataset):
             mask[rr, cc, i] = 1
         num_ids = np.array(num_ids, dtype=np.int32)
         return mask, num_ids
-
-    # deprecated TODO: remove later
-    def image_reference_(self, image_id):
-        info = self.image_info[image_id]
-        return info['path']
 
     def image_reference(self, image_id):
         info = self.image_info[image_id]
