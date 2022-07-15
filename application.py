@@ -1,10 +1,10 @@
 from dataset import KayakerDataset
 from config import KayakerConfig, PredictionConfig
-from model import KayakerModel
+from model import KayakerModel, load_and_evaluate_model
 from util import plot_actual_vs_predicted
 from video import predict_kayaker_on_video
 
-VIDEO_PATH = "files/kayaker_malmo-1920x1080.mp4"
+VIDEO_PATH = "files/kayaker_malmo_8_sec_compressed.mp4"
 M_RCNN_COCO_MODEL_PATH = 'model/mask_rcnn_coco.h5'
 
 
@@ -55,12 +55,30 @@ def pretrained_kayaker_model(trained_model_path):
     return kayaker_model.model
 
 
+def evaluate():
+    config = PredictionConfig()
+
+    train_set = KayakerDataset()
+    train_set.load_dataset('dataset', "train")
+    train_set.prepare()
+    print('Train: %d' % len(train_set.image_ids))
+
+    # test/val set
+    test_set = KayakerDataset()
+    test_set.load_dataset('dataset', "test")
+    test_set.prepare()
+    print('Test: %d' % len(test_set.image_ids))
+
+    load_and_evaluate_model("model/mask_rcnn_kayaker_cfg_0010_final_model.h5", train_set, test_set, config)
+
+
 if __name__ == '__main__':
     print("Started")
 
-    # train_model()
+    train_model()
 
-    model = pretrained_kayaker_model("model/mask_rcnn_kayaker_cfg_0006.h5")
-    show_predictions(model)
+    # model = pretrained_kayaker_model("model/mask_rcnn_kayaker_cfg_0010_final_model.h5")
+    # show_predictions(model)
+    # display_test_instances(test_set, model, 3)
 
     # predict_kayaker_on_video(model, VIDEO_PATH)

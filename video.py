@@ -3,10 +3,14 @@ import numpy as np
 from mrcnn import visualize
 from random import randint
 
+CLASS_NAMES = ["background", "kayaker"]
 
-def mark_kayaker(frame, boxes, masks):
+
+def mark_kayaker(frame, boxes, masks, class_ids, scores):
     for box in boxes:
         cv2.rectangle(frame, (int(box[1]), int(box[0])), (int(box[3]), int(box[2])), [255, 0, 0], 4)
+        cv2.putText(frame, f"{CLASS_NAMES[class_ids[0]]} {scores[0]}", (int(box[1]), int(box[0])-10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.4, (36, 255, 12))
         contours, _ = cv2.findContours(np.array(masks, np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cv2.drawContours(frame, contours, -1, (255.0, 255.0, 0.0), lineType=8, thickness=3)
     return frame
@@ -36,9 +40,9 @@ def predict_kayaker_on_video(model, video_path):
         if frame is not None:
             results = model.detect([frame], verbose=1)
             result = results[0]  # rois, class_ids, scores, masks
-            marked_frame = mark_kayaker(frame, result['rois'], result['masks'])
+            marked_frame = mark_kayaker(frame, result['rois'], result['masks'], result['class_ids'], result['scores'])
             out.write(marked_frame)
-            # display_frame_cv2(marked_frame)
+            display_frame_cv2(marked_frame)
         else:
             break
 
