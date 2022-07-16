@@ -42,7 +42,7 @@ def predict_kayaker_on_video(model, video_path):
             result = results[0]  # rois, class_ids, scores, masks
             marked_frame = mark_kayaker(frame, result['rois'], result['masks'], result['class_ids'], result['scores'])
             out.write(marked_frame)
-            display_frame_cv2(marked_frame)
+            # display_frame_cv2(marked_frame)
         else:
             break
 

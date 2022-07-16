@@ -1,10 +1,13 @@
+import cv2.cv2 as cv2
+
 from matplotlib import pyplot
 from matplotlib.patches import Rectangle
 from numpy import expand_dims
 from mrcnn.visualize import display_instances
 from mrcnn.utils import extract_bboxes
 from mrcnn.model import mold_image
-import cv2.cv2 as cv2
+from config import PredictionConfig
+from dataset import KayakerDataset
 
 COCO_DATASET_CLASSES = [
     "background",
@@ -177,3 +180,21 @@ def plot_actual_vs_predicted(dataset, model, cfg, n_images=5):
 def display_frame_cv2(img):
     cv2.imshow('Image', img)
     cv2.waitKey(500)
+
+
+def show_predictions(model):
+    config = PredictionConfig()
+
+    train_set = KayakerDataset()
+    train_set.load_dataset('dataset', "train")
+    train_set.prepare()
+    print('Train: %d' % len(train_set.image_ids))
+
+    # test/val set
+    test_set = KayakerDataset()
+    test_set.load_dataset('dataset', "test")
+    test_set.prepare()
+    print('Test: %d' % len(test_set.image_ids))
+
+    plot_actual_vs_predicted(train_set, model, config)
+    plot_actual_vs_predicted(test_set, model, config)
