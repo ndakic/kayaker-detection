@@ -1,18 +1,19 @@
-# Kayaker Detection with Mask R-CNN
+# Mask R-CNN for Kayaker Detection and Segmentation 
 
 
-### Prerequisites
+This projects shows a methodological approach with a transfer learning technique for kayakers detection  and instance segmentation using the mask region proposal convolutional neural network (Mask R-CNN). 
+Custom dataset used in this project is consist of 65 kayaker images with pixel-by-pixel polygon annotation for the automatic segmentation task. 
+The proposed transfer learning technique makes use of a Mask R-CNN model pre-trained on Microsoft Coco dataset.  The pre-trained model is later fine-tuned on custom dataset.
+
+![output_video](https://github.com/ndakic/kayaker-detection/blob/main/files/gif/output-video-2.gif)
+
+
+# Getting Started
+
+## Prerequisites
 - Python 3.7
 
-
-### Result
-
-Input            |  Output
-:-------------------------:|:-------------------------:
-![input_video](https://github.com/ndakic/kayaker-detection/blob/main/files/input-video.gif)  |  ![output_video](https://github.com/ndakic/kayaker-detection/blob/main/files/output-video.gif)
-
-
-### How to run
+## How To Run Project
 
 1. Clone this repository
  ```git

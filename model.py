@@ -21,8 +21,8 @@ class KayakerModel:
     def train(self, train_set, test_set):
         self.model.train(train_set, test_set,
                          learning_rate=self.config.LEARNING_RATE,
-                         epochs=10,
-                         layers='all')
+                         epochs=20,
+                         layers='heads')
 
 
 def evaluate_model(dataset, model, cfg):
