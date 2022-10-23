@@ -1,16 +1,18 @@
 # Mask R-CNN for Kayaker Detection and Segmentation 
 
+This project uses [Mask R-CNN](https://github.com/matterport/Mask_RCNN) implementation for kayaker detection. \
+Model (trained on custom dataset) generates bounding boxes and segmentation masks for each instance of a kayaker in the frame. \
+It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone. \
+The custom dataset consists of 65 kayaker images with pixel-by-pixel polygon annotation.
 
-This projects shows a methodological approach with a transfer learning technique for kayakers detection  and instance segmentation using the mask region proposal convolutional neural network (Mask R-CNN). 
-Custom dataset used in this project is consist of 65 kayaker images with pixel-by-pixel polygon annotation for the automatic segmentation task. 
-The proposed transfer learning technique makes use of a Mask R-CNN model pre-trained on Microsoft Coco dataset.  The pre-trained model is later fine-tuned on custom dataset.
-
-![output_video](https://github.com/ndakic/kayaker-detection/blob/main/files/gif/output-video-2.gif)
+Input            |  Output
+:-------------------------:|:-------------------------:
+![input_video](files/gif/input-video.gif)  |  ![output_video](files/gif/output-video-2.gif)
 
 
 # Getting Started
 
-## Prerequisites
+### Prerequisites
 - Python 3.7
 
 ## How To Run Project
@@ -19,10 +21,9 @@ The proposed transfer learning technique makes use of a Mask R-CNN model pre-tra
  ```git
   git clone https://github.com/ndakic/kayaker-detection
   ```
-
 2. Download yolov3 weights (237 MB) from <a href="https://pjreddie.com/media/files/yolov3.weights">here</a> and add it to your <a href="/model">model folder</a>.
 3. Install the requirements using pip and venv 
-  ```python
+  ```shell
   pip install -r requirements.txt
   ```
 4. Clone and install the Mask R-CNN Library
