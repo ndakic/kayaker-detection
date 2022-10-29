@@ -10,6 +10,19 @@ Input            |  Output
 ![input_video](files/gif/input-video.gif)  |  ![output_video](files/gif/output-video-2.gif)
 
 
+## Performance measure of the model
+Model |  Starting weights | Training Layers | Epochs | Training mAP | Test mAP 
+:-------------------------:|:-------------------------:|:---------------:|:------:|:------------:|:-------------------------:
+M1 | COCO |      heads      |   5    |    0.844     | 0.800
+M2 | COCO |      heads      |   10   |    0.824     | 0.867
+M3 | COCO |      heads      |   15   |    0.844     | 0.867
+M4 | COCO |      heads      |   20   |    0.844     | 0.800
+M5 | COCO |       all       |   5    |    0.865     | 0.867
+M6 | COCO |       all       |   10   |    0.885     | 0.933
+M7 | COCO |       all       |   15   |    0.865     | 0.867
+M8 | COCO |       all       |   20   |    0.885     | 0.933
+
+
 # Getting Started
 
 ### Prerequisites
@@ -38,3 +51,5 @@ python setup.py install
  ```python
   python application.py
   ```
+
+
