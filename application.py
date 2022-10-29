@@ -6,7 +6,7 @@ from util import plot_actual_vs_predicted
 from video import predict_kayaker
 
 INPUT_VIDEO_PATH = "files/kayaker_malmo_2_sec_compressed.mp4"
-M_RCNN_COCO_MODEL_PATH = 'model/mask_rcnn_coco.h5'
+M_RCNN_COCO_MODEL_PATH = 'kayaker_test_1_all/mask_rcnn_kayaker_cfg_0020.h5'
 MODEL_PATH = "kayaker_test_3_heads/mask_rcnn_kayaker_cfg_0020.h5"  # SET YOUR MODEL PATH
 
 

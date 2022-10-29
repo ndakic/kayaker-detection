@@ -20,7 +20,7 @@ class KayakerModel:
 
     def train(self, train_set, test_set):
         self.model.train(train_set, test_set,
-                         learning_rate=self.config.LEARNING_RATE,
+                         learning_rate=self.config.LEARNING_RATE * 2,
                          epochs=20,
                          layers='heads')
 
