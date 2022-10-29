@@ -28,7 +28,7 @@ class KayakerModel:
 def evaluate_model(dataset, model, cfg):
     APs = list()
     for image_id in dataset.image_ids:
-        print(f'Processing image with id: {image_id}')
+        # print(f'Processing image with id: {image_id}')
         # load image, bounding boxes and masks for the image id
         image, image_meta, gt_class_id, gt_bbox, gt_mask = load_image_gt(dataset, cfg, image_id,
                                                                          use_mini_mask=False)

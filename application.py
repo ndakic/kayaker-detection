@@ -1,6 +1,7 @@
 from dataset import KayakerDataset
 from config import KayakerConfig, PredictionConfig
-from model import KayakerModel, load_and_evaluate_model
+from model import KayakerModel
+from evaluate import compare_models
 from util import plot_actual_vs_predicted
 from video import predict_kayaker
 
@@ -36,23 +37,6 @@ def pretrained_kayaker_model(trained_model_path):
     return kayaker_model.model
 
 
-def evaluate():
-    config = PredictionConfig()
-
-    train_set = KayakerDataset()
-    train_set.load_dataset('dataset', "train")
-    train_set.prepare()
-    print('Train: %d' % len(train_set.image_ids))
-
-    # test/val set
-    test_set = KayakerDataset()
-    test_set.load_dataset('dataset', "test")
-    test_set.prepare()
-    print('Test: %d' % len(test_set.image_ids))
-
-    load_and_evaluate_model(MODEL_PATH, train_set, test_set, config)
-
-
 if __name__ == '__main__':
     print("Started")
 
@@ -64,6 +48,9 @@ if __name__ == '__main__':
     # predict_kayaker(model, INPUT_VIDEO_PATH)
 
     # uncomment method bellow to evaluate model
-    evaluate()
+    # evaluate()
+
+    # uncomment method bellow to compare model
+    # compare_models()
 
     print("Done!")

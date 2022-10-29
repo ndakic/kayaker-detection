@@ -3,7 +3,7 @@
 This project uses [Mask R-CNN](https://github.com/matterport/Mask_RCNN) implementation for kayaker detection. \
 Model (trained on custom dataset) generates bounding boxes and segmentation masks for each instance of a kayaker in the frame. \
 It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone. \
-The custom dataset consists of 65 kayaker images with pixel-by-pixel polygon annotation.
+The custom dataset consists of 65 kayaker images with pixel-by-pixel polygon annotations.
 
 Input            |  Output
 :-------------------------:|:-------------------------:
