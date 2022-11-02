@@ -1,8 +1,8 @@
-# Mask R-CNN for Kayaker Detection and Segmentation 
+# Detection and Segmentation of Kayakers using Mask R-CNN
 
-This project uses [Mask R-CNN](https://github.com/matterport/Mask_RCNN) implementation for kayaker detection. \
-Model (trained on custom dataset) generates bounding boxes and segmentation masks for each instance of a kayaker in the frame. \
-It's based on Feature Pyramid Network (FPN) and a ResNet101 backbone. \
+This project is based on [Mask R-CNN](https://github.com/matterport/Mask_RCNN) implementation. \
+The model generates bounding boxes and segmentation masks for each instance of a kayaker in the image. \
+Model is trained on custom dataset and it's based on Feature Pyramid Network (FPN) and a ResNet101 backbone. \
 The custom dataset consists of 65 kayaker images with pixel-by-pixel polygon annotations.
 
 Input            |  Output
@@ -51,5 +51,3 @@ python setup.py install
  ```python
   python application.py
   ```
-
-
